@@ -25,6 +25,10 @@ dependencies {
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation 'com.google.guava:guava:31.1-jre'
+	runtimeOnly 'org.postgresql:postgresql:42.6.0'  // Зависимость для PostgreSQL
+	compileOnly 'org.projectlombok:lombok:1.18.26'   // Зависимость для Lombok
+	implementation group: 'org.yaml', name: 'snakeyaml', version: '2.0' // Зависимость для YAML файлов
+	implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13.3' //Зависимость для PDF файлоы
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
