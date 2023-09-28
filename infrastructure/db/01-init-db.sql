@@ -26,7 +26,7 @@ CREATE TABLE accounts (
     balance NUMERIC(15, 2) NOT NULL,
     user_id INT REFERENCES users(id),
     bank_id INT REFERENCES banks(id),
-    opening_date DATE NOT NULL,
+    opening_date DATE NOT NULL
 );
 
 -- Создание таблицы "transactions"
