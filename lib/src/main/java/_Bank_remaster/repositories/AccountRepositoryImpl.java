@@ -59,7 +59,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 					bank.setName(resultSet.getString("name"));
 					
 					Account account = Account.builder()
-							.id(resultSet.getLong("id"))
+							.id(id)
 							.accountNumber(resultSet.getString("account_number"))
 							.openingDate(resultSet.getDate("opening_date").toLocalDate())
 							.balance(resultSet.getBigDecimal("balance"))

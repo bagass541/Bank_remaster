@@ -12,7 +12,7 @@ public interface BankRepository {
 	
 	void createBank(Bank bank);
 	
-	void updateBank();
+	void updateBank(Bank bank);
 	
-	void deleteBank();
+	void deleteBank(long id);
 }
