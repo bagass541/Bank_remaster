@@ -12,7 +12,7 @@ public interface TransactionRepository {
 	
 	void createTransaction(Transaction transaction);
 	
-	void updateTransaction();
+	void updateTransaction(Transaction transaction);
 	
-	void deleteTransaction();
+	void deleteTransaction(long id);
 }

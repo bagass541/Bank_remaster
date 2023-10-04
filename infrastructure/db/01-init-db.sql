@@ -15,7 +15,7 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     surname VARCHAR NOT NULL,
     name VARCHAR NOT NULL,
-    middle_name VARCHAR NOT NULL
+    patronymic VARCHAR NOT NULL
 );
 
 -- Создание таблицы "accounts"

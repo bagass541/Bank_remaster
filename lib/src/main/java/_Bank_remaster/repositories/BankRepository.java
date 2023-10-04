@@ -1,12 +1,14 @@
 package _Bank_remaster.repositories;
 
+import java.sql.SQLException;
 import java.util.List;
 
+import _Bank_remaster.exceptions.BankNotFoundException;
 import _Bank_remaster.models.Bank;
 
 public interface BankRepository {
 	
-	Bank findById(long id);
+	Bank findById(long id) throws BankNotFoundException;
 	
 	List<Bank> findAllBanks();
 	
