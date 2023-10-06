@@ -52,10 +52,13 @@ public class BankRepositoryImpl implements BankRepository{
 		
 		try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			try(ResultSet resultSet = preparedStatement.executeQuery()) {
-				Bank bank = Bank.builder()
-						.id(resultSet.getLong("id"))
-						.name(resultSet.getString("name")).build();
-				banks.add(bank);
+				
+				while(resultSet.next()) {
+					Bank bank = Bank.builder()
+							.id(resultSet.getLong("id"))
+							.name(resultSet.getString("name")).build();
+					banks.add(bank);
+				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

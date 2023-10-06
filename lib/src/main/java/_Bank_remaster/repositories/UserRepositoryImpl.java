@@ -81,7 +81,8 @@ public class UserRepositoryImpl implements UserRepository{
 		
 		try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			try(ResultSet resultSet = preparedStatement.executeQuery()) {
-				if(resultSet.next()) {
+				
+				while(resultSet.next()) {
 					User user = User.builder()
 							.id(resultSet.getLong("id"))
 							.name(resultSet.getString("name"))
