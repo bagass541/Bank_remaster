@@ -2,9 +2,6 @@ package _Bank_remaster.menu;
 
 import java.sql.Connection;
 import java.util.List;
-
-import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
-
 import _Bank_remaster.exceptions.AccNotFoundException;
 import _Bank_remaster.models.Account;
 import _Bank_remaster.models.User;
@@ -21,22 +18,22 @@ public class MainMenu extends Menu {
 	private final AccountRepository accountRepo;
 
 	private final String MENU = """
-			----------------------------
-			1: Пополнить баланс
-			2: Снять деньги
-			3: Перевод
-			4: Запросить выписку
-			5: Сменить счет
-			6: Выход
-			----------------------------
-			""";
+			\n----------------------------
+			1: Проверить баланс
+			2: Пополнить баланс
+			3: Снять деньги
+			4: Перевод
+			5: Запросить выписку
+			6: Сменить счет
+			7: Выход
+			----------------------------\n""";
 	
 
 	
 	
 	public MainMenu(Connection connection) {
-		this.accountRepo = new AccountRepositoryImpl(connection);
-		this.accountService = new AccountServiceImpl(accountRepo, 
+		accountRepo = new AccountRepositoryImpl(connection);
+		accountService = new AccountServiceImpl(accountRepo, 
 				new TransactionServiceImpl(new TransactionRepositoryImpl(connection)));
 	}
 
@@ -58,34 +55,39 @@ public class MainMenu extends Menu {
 			printMenu(MENU);
 			switch(scanner.nextInt()) {
 				case 1 -> {
-					System.out.println("На какую сумму вы хотите пополнить баланс? ");
-					accountService.deposit(account, scanner.nextBigDecimal());
+					System.out.println("\nВаш баланс: " + account.getBalance());
+					
 				}
 				case 2 -> {
-					System.out.println("Какую сумму вы хотите снять? ");
-					accountService.withdraw(account, scanner.nextBigDecimal());
+					System.out.println("\nНа какую сумму вы хотите пополнить баланс? ");
+					accountService.deposit(account, scanner.nextBigDecimal());
+					
 				}
 				case 3 -> {
-					System.out.println("Введите номер счета, на который хотите перевести деньги: ");
+					System.out.println("\nКакую сумму вы хотите снять? ");
+					accountService.withdraw(account, scanner.nextBigDecimal());
+					
+				}
+				case 4 -> {
+					System.out.println("\nВведите номер счета, на который хотите перевести деньги: ");
 					Account recipAccount;
 					try {
 						recipAccount = accountRepo.findByNumber(scanner.next());
 					} catch (AccNotFoundException e) {
-						System.out.println("Счет не найден.");
+						System.out.println("\nСчет не найден.");
 						break;
 					}
 					
-					System.out.println("Введите сумму, которую хотите перевести: ");
+					System.out.println("\nВведите сумму, которую хотите перевести: ");
 					accountService.transfer(account, recipAccount, scanner.nextBigDecimal());
 				}
-				case 4 -> {
+				case 5 -> {
 					throw new RuntimeException();
 				}
-				case 5 -> {
-					System.out.println("Выберите счет:");
-					askAccount(user);
-				}
 				case 6 -> {
+					account = askAccount(user);
+				}
+				case 7 -> {
 					System.exit(0);
 				}
 					
@@ -95,28 +97,28 @@ public class MainMenu extends Menu {
 	}
 	
 	private Account askAccount(User user) {
-		Account account;
 		List<Account> accountsByUser = accountRepo.findAccountsByUser(user);
 		if(accountsByUser.size() != 0) {
-			System.out.println("Выберите счет, которым хотите воспользоваться: ");
-			printAllAccNumbers(accountsByUser);
-			try {
-				account = accountRepo.findByNumber(accountsByUser.get(scanner.nextInt() - 1).getAccountNumber());
-				return account;
-			} catch (AccNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			
+			while(true) {
+				System.out.println("\nВыберите счет, которым хотите воспользоваться: ");
+				printAllAccNumbers(accountsByUser);
+				int i = scanner.nextInt() - 1;
+				if(accountsByUser.size() > i) {
+					return accountsByUser.get(i);
+				}
 			}
+
 		} 
 		
-		System.out.println("У данного пользователя нет счетов");
+		System.out.println("\nУ данного пользователя нет счетов");
 		return null;
 	}
 	
 	private User askFIO() {
-		System.out.println("Введите свое ФИО: ");
-		String[] fioSplitted = scanner.next().split(" ");
-		
+		System.out.println("\nВведите свое ФИО: ");
+		String[] fioSplitted = scanner.nextLine().split(" ");
+
 		User user = User.builder()
 				.surname(fioSplitted[0])
 				.name(fioSplitted[1])
@@ -128,7 +130,8 @@ public class MainMenu extends Menu {
 	
 	private void printAllAccNumbers(List<Account> accounts) {
 		for(int i = 1; i <= accounts.size(); i++) {
-			System.out.format(i + ": %10s", accounts.get(i - 1));
+			System.out.format(i + ": %10s, %.2f, %10s\n", accounts.get(i - 1).getAccountNumber()
+					, accounts.get(i - 1).getBalance(), accounts.get(i - 1).getOpeningDate().toString());
 		}
 	}
 
