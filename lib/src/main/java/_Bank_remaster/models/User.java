@@ -16,4 +16,9 @@ public class User {
 	private String patronymic;
 	private String surname;
 	
+	@Override
+	public String toString() {
+		return String.format("id: %d, surname: %s, name: %s, patronymic: %s", id,
+				surname, name, patronymic);
+	}
 }

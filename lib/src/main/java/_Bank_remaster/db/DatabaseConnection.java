@@ -9,7 +9,7 @@ public class DatabaseConnection {
 	private static final String USERNAME = "bagas";
 	private static final String PASSWORD = "12345";
 	
-	public Connection getConnection() {
+	public static Connection getConnection() {
 		try {
 			Class.forName("org.postgresql.Driver");
 			return DriverManager.getConnection(URL, USERNAME, PASSWORD);

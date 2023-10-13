@@ -5,12 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
-
+import _Bank_remaster.exceptions.TransactionNotFoundException;
 import _Bank_remaster.models.Account;
 import _Bank_remaster.models.Transaction;
 import _Bank_remaster.models.TransactionType;
@@ -25,7 +25,7 @@ public class TransactionRepositoryImpl implements TransactionRepository{
 	}
 
 	@Override
-	public Transaction findById(long id)  {
+	public Transaction findById(long id) throws TransactionNotFoundException  {
 		String sql = "select time, sender_account_id,  receiver_account_id, amount, transaction_type "
 				+ " from transactions where id = ?";
 		
@@ -41,6 +41,7 @@ public class TransactionRepositoryImpl implements TransactionRepository{
 					receiverAcc.setId(resultSet.getLong("receiver_account_id"));
 					
 					Transaction transaction = Transaction.builder()
+							.id(id)
 							.time(resultSet.getTimestamp("time").toLocalDateTime())
 							.senderAccount(senderAcc)
 							.recieverAccount(receiverAcc)
@@ -55,14 +56,14 @@ public class TransactionRepositoryImpl implements TransactionRepository{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		throw new TransactionNotFoundException();
 	}
 
 	@Override
 	public List<Transaction> findAllTransactions() {
 		List<Transaction> transactions = new LinkedList<>();
 		
-		String sql = "select id, sender_account_id, receiver_account_id, amount, transaction_type "
+		String sql = "select id, time, sender_account_id, receiver_account_id, amount, transaction_type "
 				+ "from transactions";
 		
 		try(PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -74,9 +75,10 @@ public class TransactionRepositoryImpl implements TransactionRepository{
 					
 					senderAcc.setId(resultSet.getLong("sender_account_id"));
 					receiverAcc.setId(resultSet.getLong("receiver_account_id"));
-					
+	
 					Transaction transaction = Transaction.builder()
 							.id(resultSet.getLong("id"))
+							.time(resultSet.getTimestamp("time").toLocalDateTime())
 							.senderAccount(senderAcc)
 							.recieverAccount(receiverAcc)
 							.amount(resultSet.getBigDecimal("amount"))
@@ -95,14 +97,16 @@ public class TransactionRepositoryImpl implements TransactionRepository{
 
 	@Override
 	public void createTransaction(Transaction transaction) {
-		String sql = "insert into transactions(id, sender_account_id, receiver_account_id, amount, transaction_type) values (?, ?, ?, ?, ?)";
+		String sql = "insert into transactions(time, sender_account_id, receiver_account_id, amount, transaction_type) values (?, ?, ?, ?, ?)";
 		
 		try(PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-			preparedStatement.setLong(1, transaction.getId());
+			preparedStatement.setTimestamp(1, Timestamp.valueOf(transaction.getTime()));
 			preparedStatement.setLong(2, transaction.getSenderAccount().getId());
 			preparedStatement.setLong(3, transaction.getRecieverAccount().getId());
 			preparedStatement.setBigDecimal(4, transaction.getAmount());
 			preparedStatement.setObject(5, transaction.getType(), Types.OTHER);
+			
+			preparedStatement.execute();
 			
 			ResultSet resultSet = preparedStatement.getGeneratedKeys();
 			
@@ -118,16 +122,19 @@ public class TransactionRepositoryImpl implements TransactionRepository{
 
 	@Override
 	public void updateTransaction(Transaction transaction) {
-		String sql = "update transactions set sender_account_id = ?, receiver_account_id = ?, amount = ?, transaction_type = ?"
+		String sql = "update transactions set time = ?, sender_account_id = ?, receiver_account_id = ?, amount = ?, transaction_type = ?"
 				+ " where id = ?";
 		
 		try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			preparedStatement.setLong(1, transaction.getSenderAccount().getId());
-			preparedStatement.setLong(2, transaction.getRecieverAccount().getId());
-			preparedStatement.setBigDecimal(3, transaction.getAmount());
-			preparedStatement.setObject(4, transaction.getType(), Types.OTHER);
+			preparedStatement.setTimestamp(1, Timestamp.valueOf(transaction.getTime()));
+			preparedStatement.setLong(2, transaction.getSenderAccount().getId());
+			preparedStatement.setLong(3, transaction.getRecieverAccount().getId());
+			preparedStatement.setBigDecimal(4, transaction.getAmount());
+			preparedStatement.setObject(5, transaction.getType(), Types.OTHER);
+			preparedStatement.setLong(6, transaction.getId());
 			
 			preparedStatement.execute();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

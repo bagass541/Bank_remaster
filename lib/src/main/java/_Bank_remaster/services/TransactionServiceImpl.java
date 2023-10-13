@@ -1,12 +1,12 @@
 package _Bank_remaster.services;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import _Bank_remaster.models.Account;
 import _Bank_remaster.models.Transaction;
 import _Bank_remaster.models.TransactionType;
 import _Bank_remaster.repositories.TransactionRepository;
-import _Bank_remaster.repositories.TransactionRepositoryImpl;
 
 public class TransactionServiceImpl implements TransactionService{
 	
@@ -23,7 +23,9 @@ public class TransactionServiceImpl implements TransactionService{
 				.type(type)
 				.senderAccount(senderAcc)
 				.recieverAccount(recipAcc)
-				.amount(amount).build();
+				.amount(amount)
+				.time(LocalDateTime.now())
+				.build();
 		
 		transactionRepo.createTransaction(transaction);
 		return transaction;

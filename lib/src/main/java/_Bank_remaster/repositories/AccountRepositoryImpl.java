@@ -9,8 +9,6 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
-
 import _Bank_remaster.exceptions.AccNotFoundException;
 import _Bank_remaster.models.Account;
 import _Bank_remaster.models.Bank;
@@ -26,7 +24,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 
 	@Override
 	public Account findByNumber(String number) throws AccNotFoundException {
-		String sql = "select accounts.id, account_number, balance, user_id, banks.name, opening_date from accounts "
+		String sql = "select accounts.id, account_number, balance, user_id, bank_id, opening_date from accounts "
 				+ "inner join banks on banks.id = accounts.bank_id "
 				+ "where account_number = ?";
 
@@ -37,11 +35,16 @@ public class AccountRepositoryImpl implements AccountRepository {
 				if(resultSet.next()) {
 
 					Bank bank = new Bank();
-					bank.setName(resultSet.getString("name"));
+					bank.setId(resultSet.getLong("bank_id"));
+					
+					User user = new User();
+					user.setId(resultSet.getLong("user_id"));
 					
 					Account account = Account.builder()
 							.id(resultSet.getLong("id"))
 							.accountNumber(resultSet.getString("account_number"))
+							.user(user)
+							.bank(bank)
 							.openingDate(resultSet.getDate("opening_date").toLocalDate())
 							.balance(resultSet.getBigDecimal("balance"))
 							.bank(bank).build();
@@ -59,8 +62,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 
 	@Override
 	public Account findById(long id) throws AccNotFoundException {
-		String sql = "select accounts.id, account_number, balance, user_id, banks.name, opening_date from accounts "
-				+ "inner join banks on banks.id = accounts.bank_id "
+		String sql = "select accounts.id, account_number, balance, user_id, bank_id, opening_date from accounts "
 				+ "where accounts.id = ?";
 		
 		try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -70,14 +72,18 @@ public class AccountRepositoryImpl implements AccountRepository {
 				if(resultSet.next()) {
 					
 					Bank bank = new Bank();
-					bank.setName(resultSet.getString("name"));
+					bank.setId(resultSet.getLong("bank_id"));
+					
+					User user = new User();
+					user.setId(resultSet.getLong("user_id"));
 					
 					Account account = Account.builder()
 							.id(id)
 							.accountNumber(resultSet.getString("account_number"))
 							.openingDate(resultSet.getDate("opening_date").toLocalDate())
 							.balance(resultSet.getBigDecimal("balance"))
-							.bank(bank).build();
+							.bank(bank)
+							.user(user).build();
 					
 					return account;
 	
@@ -92,8 +98,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 
 	@Override
 	public List<Account> findAllAccounts() {
-		String sql = "select accounts.id, account_number, balance, user_id, bank_id, banks.name, opening_date from accounts "
-				+ "inner join banks on banks.id = accounts.bank_id";
+		String sql = "select id, account_number, balance, user_id, bank_id, opening_date from accounts";
 		
 		List<Account> accounts = new LinkedList<>();
 		
@@ -102,12 +107,15 @@ public class AccountRepositoryImpl implements AccountRepository {
 				
 				while(resultSet.next()) {
 					Bank bank = new Bank();
-					bank.setName(resultSet.getString("name"));
 					bank.setId(resultSet.getLong("bank_id"));
 					
+					User user = new User();
+					user.setId(resultSet.getLong("user_id"));
+
 					Account account = Account.builder()
 							.id(resultSet.getLong("id"))
 							.accountNumber(resultSet.getString("account_number"))
+							.user(user)
 							.openingDate(resultSet.getDate("opening_date").toLocalDate())
 							.balance(resultSet.getBigDecimal("balance"))
 							.bank(bank).build();
@@ -124,7 +132,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 	
 	public List<Account> findAccountsByUser (User user) {
 		List<Account> accounts = new LinkedList<>();
-		String sql = "select accounts.id, account_number, balance, user_id, surname, users.name, patronymic, bank_id, banks.name, opening_date from accounts" 
+		String sql = "select accounts.id as acc_id, account_number, balance, user_id, bank_id, banks.name as bank_name, opening_date from accounts" 
 				+ " inner join banks on banks.id = accounts.bank_id"
 				+ " inner join users on users.id = accounts.user_id"
 				+ " where surname = ? and users.name = ? and patronymic = ?";
@@ -139,13 +147,13 @@ public class AccountRepositoryImpl implements AccountRepository {
 				while(resultSet.next()) {
 					Bank bank = Bank.builder()
 							.id(resultSet.getLong("bank_id"))
-							.name(resultSet.getString("users_name"))
+							.name(resultSet.getString("bank_name"))
 							.build();
 					
 					user.setId(resultSet.getLong("user_id"));
 					
 					Account account = Account.builder()
-							.id(resultSet.getLong("accounts_id"))
+							.id(resultSet.getLong("acc_id"))
 							.accountNumber(resultSet.getString("account_number"))
 							.balance(resultSet.getBigDecimal("balance"))
 							.user(user)
@@ -163,6 +171,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	@Override
@@ -170,6 +179,9 @@ public class AccountRepositoryImpl implements AccountRepository {
 		String sql = "INSERT INTO accounts(account_number, balance, user_id, bank_id, opening_date) VALUES (?, ?, ?, ?, ?)";
 		
 		try(PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+			
+			account.generateAccountNumber();
+			
 			preparedStatement.setString(1, account.getAccountNumber());
 			preparedStatement.setBigDecimal(2, account.getBalance());
 			preparedStatement.setLong(3, account.getUser().getId());

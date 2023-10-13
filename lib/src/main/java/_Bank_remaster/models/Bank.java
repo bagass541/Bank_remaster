@@ -12,4 +12,9 @@ import lombok.NoArgsConstructor;
 public class Bank {
 	private long id;
 	private String name;
+	
+	@Override
+	public String toString() {
+		return String.format("id: %d, name: %s", id, name);
+	}
 }

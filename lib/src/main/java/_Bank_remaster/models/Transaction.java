@@ -2,11 +2,9 @@ package _Bank_remaster.models;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Builder
@@ -22,5 +20,11 @@ public class Transaction {
 	
 	public Transaction(){
 		this.time = LocalDateTime.now();
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("id: %d, time: %s, sendAccountId: %d, recipAccountId: %d, amount: %.2f, trType: %s",
+				id, time, senderAccount.getId(), recieverAccount.getId(), amount, type.toString());
 	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import _Bank_remaster.exceptions.AccNotFoundException;
 import _Bank_remaster.models.Account;
+import _Bank_remaster.models.User;
 
 public interface AccountRepository {
 	
@@ -12,6 +13,8 @@ public interface AccountRepository {
 	Account findById(long id) throws AccNotFoundException;
 	
 	List<Account> findAllAccounts();
+	
+	List<Account> findAccountsByUser(User user);
 	
 	void createAccount(Account account);
 	
