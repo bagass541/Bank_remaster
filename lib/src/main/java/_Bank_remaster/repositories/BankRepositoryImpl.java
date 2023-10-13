@@ -8,8 +8,6 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
-
 import _Bank_remaster.exceptions.BankNotFoundException;
 import _Bank_remaster.models.Bank;
 
@@ -47,7 +45,7 @@ public class BankRepositoryImpl implements BankRepository{
 
 	@Override
 	public List<Bank> findAllBanks() {
-		String sql = "select id, name from bank";
+		String sql = "select id, name from banks";
 		List<Bank> banks = new LinkedList<>();
 		
 		try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -69,7 +67,7 @@ public class BankRepositoryImpl implements BankRepository{
 
 	@Override
 	public void createBank(Bank bank) {
-		String sql = "insert into banks(name) values (?, ?)";
+		String sql = "insert into banks(name) values (?)";
 		
 		try(PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 			preparedStatement.setString(1, bank.getName());

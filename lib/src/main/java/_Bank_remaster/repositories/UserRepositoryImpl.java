@@ -60,12 +60,14 @@ public class UserRepositoryImpl implements UserRepository{
 			
 			try(ResultSet resultSet = preparedStatement.executeQuery()) {
 				
-				User user = User.builder()
-						.id(resultSet.getLong("id"))
-						.name(resultSet.getString("name"))
-						.patronymic(resultSet.getString("patronymic"))
-						.surname(resultSet.getString("surname")).build();
-				return user;
+				if(resultSet.next()) {
+					User user = User.builder()
+							.id(resultSet.getLong("id"))
+							.name(resultSet.getString("name"))
+							.patronymic(resultSet.getString("patronymic"))
+							.surname(resultSet.getString("surname")).build();
+					return user;
+				}		
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

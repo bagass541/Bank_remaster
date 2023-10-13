@@ -1,6 +1,5 @@
 package _Bank_remaster.repositories;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import _Bank_remaster.exceptions.BankNotFoundException;
