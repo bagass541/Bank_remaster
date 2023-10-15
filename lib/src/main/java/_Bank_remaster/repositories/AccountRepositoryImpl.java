@@ -24,9 +24,11 @@ public class AccountRepositoryImpl implements AccountRepository {
 
 	@Override
 	public Account findByNumber(String number) throws AccNotFoundException {
-		String sql = "select accounts.id, account_number, balance, user_id, bank_id, opening_date from accounts "
-				+ "inner join banks on banks.id = accounts.bank_id "
-				+ "where account_number = ?";
+		String sql = "select accounts.id, account_number, balance, user_id, surname, users.name as user_name, patronymic, bank_id, banks.name as bank_name,"
+				+ " opening_date from accounts"
+				+ " inner join banks on banks.id = accounts.bank_id"
+				+ " inner join users on users.id = accounts.user_id"
+				+ " where account_number = ?";
 
 		try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			preparedStatement.setString(1, number);
@@ -34,11 +36,18 @@ public class AccountRepositoryImpl implements AccountRepository {
 			try(ResultSet resultSet = preparedStatement.executeQuery()) {
 				if(resultSet.next()) {
 
-					Bank bank = new Bank();
-					bank.setId(resultSet.getLong("bank_id"));
+					Bank bank = Bank.builder()
+							.id(resultSet.getLong("bank_id"))
+							.name(resultSet.getString("bank_name"))
+							.build();
 					
-					User user = new User();
-					user.setId(resultSet.getLong("user_id"));
+					User user = User.builder()
+							.id(resultSet.getLong("user_id"))
+							.surname(resultSet.getString("surname"))
+							.name(resultSet.getString("user_name"))
+							.patronymic(resultSet.getString("patronymic"))
+							.build();
+						
 					
 					Account account = Account.builder()
 							.id(resultSet.getLong("id"))

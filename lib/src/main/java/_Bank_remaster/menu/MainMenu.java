@@ -11,6 +11,7 @@ import _Bank_remaster.repositories.TransactionRepositoryImpl;
 import _Bank_remaster.services.AccountService;
 import _Bank_remaster.services.AccountServiceImpl;
 import _Bank_remaster.services.TransactionServiceImpl;
+import _Bank_remaster.util.ChequeGenerator;
 
 public class MainMenu extends Menu {
 	
@@ -34,7 +35,7 @@ public class MainMenu extends Menu {
 	public MainMenu(Connection connection) {
 		accountRepo = new AccountRepositoryImpl(connection);
 		accountService = new AccountServiceImpl(accountRepo, 
-				new TransactionServiceImpl(new TransactionRepositoryImpl(connection)));
+				new TransactionServiceImpl(new TransactionRepositoryImpl(connection)), new ChequeGenerator());
 	}
 
 

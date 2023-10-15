@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum TransactionType {
 	DEPOSIT("Пополнение"),
-	WITHDRAW("Cнятие"),
+	WITHDRAW("Cнятие средств"),
 	TRANSFER("Перевод");
 	
 	private final String translate;
