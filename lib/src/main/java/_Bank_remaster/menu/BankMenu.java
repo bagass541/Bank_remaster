@@ -16,9 +16,7 @@ public class BankMenu extends CRUDMenu{
 			3: Изменить банк
 			4: Удалить банк
 			5: Вернуться назад
-			----------------------------\n""";
-	
-	
+			----------------------------""";
 	
 	public BankMenu(BankRepository bankRepo) {
 		this.bankRepo = bankRepo;

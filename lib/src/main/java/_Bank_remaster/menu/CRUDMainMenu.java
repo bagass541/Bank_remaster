@@ -24,7 +24,7 @@ public class CRUDMainMenu extends CRUDMenu{
 			2: Операции с пользователями
 			3: Операции с транзакциями
 			4: Операции с банками
-			----------------------------\n""";
+			----------------------------""";
 	
 	public CRUDMainMenu(Connection connection) {
 		bankRepo = new BankRepositoryImpl(connection);

@@ -27,10 +27,7 @@ public class MainMenu extends Menu {
 			5: Запросить выписку
 			6: Сменить счет
 			7: Выход
-			----------------------------\n""";
-	
-
-	
+			----------------------------""";
 	
 	public MainMenu(Connection connection) {
 		accountRepo = new AccountRepositoryImpl(connection);

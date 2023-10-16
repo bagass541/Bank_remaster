@@ -1,5 +1,6 @@
 package _Bank_remaster.util;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,11 +11,11 @@ import _Bank_remaster.models.TransactionType;
 
 public class ChequeGenerator {
 
-	private final String CHECKS_FOLDER = "C:\\Users\\balic\\eclipse-workspace\\Bank_remaster\\check\\";
+	private final String CHECKS_FOLDER = "../check\\";
 	
 	public void generateCheck(Transaction transaction) {
-		String checkFileName = CHECKS_FOLDER + "check_" + transaction.getId() + ".txt";
-		try(PrintWriter printWriter = new PrintWriter(new FileWriter(checkFileName))) {
+		File chequeFile = new File(CHECKS_FOLDER + "check_" + transaction.getId() + ".txt");
+		try(PrintWriter printWriter = new PrintWriter(new FileWriter(chequeFile.getAbsolutePath()))) {
 			
 			printWriter.println("----------------------------------------------");
 			printWriter.println("|              Банковский чек                |");

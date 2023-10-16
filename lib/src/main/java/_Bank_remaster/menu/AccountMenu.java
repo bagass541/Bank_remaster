@@ -19,7 +19,7 @@ public class AccountMenu extends CRUDMenu {
 			3: Изменить счет
 			4: Удалить счет
 			5: Вернуться назад
-			----------------------------\n""";
+			----------------------------""";
 	
 	public AccountMenu(AccountRepository accountRepo) {
 		this.accountRepo = accountRepo;
