@@ -16,6 +16,10 @@ public class User {
 	private String patronymic;
 	private String surname;
 	
+	public String getFullName() {
+		return surname + " " + name + " " + patronymic;
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("id: %d, surname: %s, name: %s, patronymic: %s", id,
