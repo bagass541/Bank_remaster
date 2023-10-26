@@ -1,22 +1,31 @@
 package _Bank_remaster.menu;
 
+import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
+
+import com.itextpdf.text.DocumentException;
+
 import _Bank_remaster.exceptions.AccNotFoundException;
 import _Bank_remaster.models.Account;
 import _Bank_remaster.models.User;
 import _Bank_remaster.repositories.AccountRepository;
 import _Bank_remaster.repositories.AccountRepositoryImpl;
+import _Bank_remaster.repositories.TransactionRepository;
 import _Bank_remaster.repositories.TransactionRepositoryImpl;
 import _Bank_remaster.services.AccountService;
 import _Bank_remaster.services.AccountServiceImpl;
 import _Bank_remaster.services.TransactionServiceImpl;
 import _Bank_remaster.util.ChequeGenerator;
+import _Bank_remaster.util.StatementGenerator;
+import _Bank_remaster.util.TimePeriod;
 
 public class MainMenu extends Menu {
 	
 	private final AccountService accountService;
 	private final AccountRepository accountRepo;
+	private final StatementGenerator statementGenerator;
 
 	private final String MENU = """
 			\n----------------------------
@@ -34,8 +43,10 @@ public class MainMenu extends Menu {
 	
 	public MainMenu(Connection connection) {
 		accountRepo = new AccountRepositoryImpl(connection);
+		TransactionRepository transactionRepo = new TransactionRepositoryImpl(connection);
 		accountService = new AccountServiceImpl(accountRepo, 
-				new TransactionServiceImpl(new TransactionRepositoryImpl(connection)), new ChequeGenerator());
+				new TransactionServiceImpl(transactionRepo), new ChequeGenerator());
+		statementGenerator = new StatementGenerator(transactionRepo);
 	}
 
 
@@ -83,7 +94,18 @@ public class MainMenu extends Menu {
 					accountService.transfer(account, recipAccount, scanner.nextBigDecimal());
 				}
 				case 5 -> {
-					throw new RuntimeException();
+					try {
+						statementGenerator.generate(account, TimePeriod.ALL_TIME);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (DocumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				case 6 -> {
 					account = askAccount(user);
