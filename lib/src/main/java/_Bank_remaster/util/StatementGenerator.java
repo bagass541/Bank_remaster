@@ -85,10 +85,18 @@ public class StatementGenerator {
 				.append(String.format(" | %-29s | ", TransactionType.WITHDRAW.getTranslate(),
 						transaction.getSenderAccount().getUser().getSurname()))
 				.append("-" + transaction.getAmount() + " BYN\n");
+			} else if(transaction.getSenderAccount().getId() == account.getId() && transaction.getType() == TransactionType.TRANSFER){
+				builder
+				.append(String.format(" | %-29s | ", TransactionType.TRANSFER.getTranslate()))
+				.append( "-" + transaction.getAmount() + " BYN\n");
+			} else if(transaction.getRecieverAccount().getId() == account.getId() && transaction.getType() == TransactionType.TRANSFER) {
+				builder
+				.append(String.format(" | %-29s | ", TransactionType.TRANSFER.getTranslate() + " от " +
+						transaction.getSenderAccount().getUser().getSurname()))
+				.append(transaction.getAmount() + " BYN\n");
 			} else {
 				builder
-				.append(String.format(" | %-29s | ", transaction.getType().getTranslate() + " от " +
-						transaction.getSenderAccount().getUser().getSurname()))
+				.append(String.format(" | %-29s | ", TransactionType.DEPOSIT.getTranslate()))
 				.append(transaction.getAmount() + " BYN\n");
 			}
 		}

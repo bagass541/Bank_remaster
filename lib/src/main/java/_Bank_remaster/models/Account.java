@@ -7,7 +7,9 @@ import java.util.concurrent.atomic.AtomicLong;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @Builder
@@ -28,14 +30,14 @@ public class Account {
 	public void generateAccountNumber() {
 		accountNumber = String.format("%010d", accountCounter.incrementAndGet());
 	}
-
+	
+	
+	
 
 	@Override
 	public String toString() {
 		return String.format("id: %d, number: %s, balance: %.2f, user_id: %d, bank_id: %d, opening date: %s", 
 				id, accountNumber, balance, user.getId(), bank.getId(), openingDate);
 	}
-	
-	
 	
 }

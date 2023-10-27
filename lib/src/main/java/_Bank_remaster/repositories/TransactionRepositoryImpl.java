@@ -89,9 +89,11 @@ public class TransactionRepositoryImpl implements TransactionRepository{
 					receiverUser.setSurname(resultSet.getString("r_user_surname"));
 					
 					Account senderAcc = new Account();
+					senderAcc.setId(resultSet.getLong("sender_account_id"));
 					senderAcc.setUser(senderUser);
 					
 					Account receiverAcc = new Account();
+					receiverAcc.setId(resultSet.getLong("receiver_account_id"));
 					receiverAcc.setUser(receiverUser);
 					
 					Transaction transaction = Transaction.builder()

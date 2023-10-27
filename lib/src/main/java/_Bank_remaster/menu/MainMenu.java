@@ -67,7 +67,7 @@ public class MainMenu extends Menu {
 			printMenu(MENU);
 			switch(scanner.nextInt()) {
 				case 1 -> {
-					System.out.println("\nВаш баланс: " + account.getBalance());
+					System.out.println("\nВаш баланс: " + account.getBalance() + " BYN");
 					
 				}
 				case 2 -> {
@@ -140,8 +140,14 @@ public class MainMenu extends Menu {
 	
 	private User askFIO() {
 		System.out.println("\nВведите свое ФИО: ");
-		String[] fioSplitted = scanner.nextLine().split(" ");
-
+		String fio = scanner.nextLine();
+		
+		if(!fio.matches("[А-Я]\\D+ [А-Я]\\D+ [А-Я]\\D+")) {
+			return askFIO();
+		}
+		
+		String[] fioSplitted = fio.split(" ");
+		
 		User user = User.builder()
 				.surname(fioSplitted[0])
 				.name(fioSplitted[1])
