@@ -35,15 +35,21 @@ public class AccountServiceImpl implements AccountService{
 
 	@Override
 	public void transfer(Account sendAccount, Account recipAccount, BigDecimal sum) {
-		sendAccount.setBalance(sendAccount.getBalance().subtract(sum));
-		recipAccount.setBalance(recipAccount.getBalance().add(sum));
 		
-		accountRepo.updateAccount(sendAccount);
-		accountRepo.updateAccount(recipAccount);
+		Object firstLock = sendAccount.getId() < recipAccount.getId() ? recipAccount.getId() : sendAccount.getId();
+		Object secondLock = sendAccount.getId() < recipAccount.getId() ? sendAccount.getId() : recipAccount.getId();
+		
+		synchronized (firstLock) {
+			synchronized (secondLock) {
+				sendAccount.setBalance(sendAccount.getBalance().subtract(sum));
+				recipAccount.setBalance(recipAccount.getBalance().add(sum));
+				
+				accountRepo.updateAccount(sendAccount);
+				accountRepo.updateAccount(recipAccount);
+			}
+		}
 		
 		chequeGenerator.generateCheque(transactionService.createTransaction(TransactionType.TRANSFER, sendAccount, recipAccount, sum));
-		
-		
 	}
 
 	
