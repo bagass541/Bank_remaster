@@ -3,7 +3,9 @@ package _Bank_remaster.menu;
 import _Bank_remaster.exceptions.UserNotFoundException;
 import _Bank_remaster.models.User;
 import _Bank_remaster.repositories.UserRepository;
-
+/*
+ * The user menu for CRUD-operations with users.
+ */
 public class UserMenu extends CRUDMenu {
 	
 	private final UserRepository userRepo;
@@ -67,6 +69,11 @@ public class UserMenu extends CRUDMenu {
 		
 	}
 	
+	/*
+	 * Requests user input and sets properties for an user object.
+	 * 
+	 * @param user The user object for which properties need to be set.
+	 */
 	private void askPropeties(User user) {
 		System.out.println("\nВведите фамилию пользователя: ");
 		user.setSurname(scanner.next());

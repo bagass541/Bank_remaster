@@ -21,6 +21,9 @@ import _Bank_remaster.util.ChequeGenerator;
 import _Bank_remaster.util.StatementGenerator;
 import _Bank_remaster.util.TimePeriod;
 
+/**
+ * The main menu that will be displayed to a regular user.
+ */
 public class MainMenu extends Menu {
 	
 	private final AccountService accountService;
@@ -119,6 +122,13 @@ public class MainMenu extends Menu {
 		
 	}
 	
+	/*
+	 * Finds the user's accounts and offers to choose one.
+	 * If the user doesnt have account,  
+	 * 
+	 * @param user The user who wants to use his accounts.
+	 * @return choosed account.
+	 */
 	private Account askAccount(User user) {
 		List<Account> accountsByUser = accountRepo.findAccountsByUser(user);
 		if(accountsByUser.size() != 0) {
@@ -138,6 +148,11 @@ public class MainMenu extends Menu {
 		return null;
 	}
 	
+	/*
+	 * Requests user input, validates input, create a user, sets properties and then returns the User.
+	 * 
+	 * @return user The user which was created with input properties.
+	 */
 	private User askFIO() {
 		System.out.println("\nВведите свое ФИО: ");
 		String fio = scanner.nextLine();
@@ -157,6 +172,11 @@ public class MainMenu extends Menu {
 		return user;
 	}
 	
+	/*
+	 * Print all accounts in the list.
+	 * 
+	 * @param accounts Accounts that belong to the current user.
+	 */
 	private void printAllAccNumbers(List<Account> accounts) {
 		for(int i = 1; i <= accounts.size(); i++) {
 			System.out.format(i + ": %10s, %.2f, %10s\n", accounts.get(i - 1).getAccountNumber()

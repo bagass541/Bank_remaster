@@ -8,6 +8,9 @@ import _Bank_remaster.models.Bank;
 import _Bank_remaster.models.User;
 import _Bank_remaster.repositories.AccountRepository;
 
+/*
+ * The account menu for CRUD-operations with accounts.
+ */
 public class AccountMenu extends CRUDMenu {
 	
 	private final AccountRepository accountRepo;
@@ -71,6 +74,11 @@ public class AccountMenu extends CRUDMenu {
 		
 	}
 	
+	/*
+	 * Requests user input and sets properties for an account.
+	 * 
+	 * @param account The account for which properties need to be set.
+	 */
 	private void askProperties(Account account) {
 		System.out.println("\nВведите нужный вам баланс: ");
 		account.setBalance(scanner.nextBigDecimal());

@@ -9,11 +9,19 @@ import java.time.format.DateTimeFormatter;
 import _Bank_remaster.models.Transaction;
 import _Bank_remaster.models.TransactionType;
 
+/*
+ * The class is for generating cheques.
+ */
 public class ChequeGenerator {
 
 	private final String CHECKS_FOLDER = "../check\\";
 	
-	public void generateCheck(Transaction transaction) {
+	/*
+	 * Generates a cheque in the folder - check.
+	 * 
+	 * @param transaction The transaction that will be demonstrated in the cheque.
+	 */
+	public void generateCheque(Transaction transaction) {
 		File chequeFile = new File(CHECKS_FOLDER + "check_" + transaction.getId() + ".txt");
 		try(PrintWriter printWriter = new PrintWriter(new FileWriter(chequeFile.getAbsolutePath()))) {
 			

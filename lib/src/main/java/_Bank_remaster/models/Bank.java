@@ -5,6 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/*
+ * Model of a bank.
+ */
+
 @Data
 @NoArgsConstructor
 @Builder

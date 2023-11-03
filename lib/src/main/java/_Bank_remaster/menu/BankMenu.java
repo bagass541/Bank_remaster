@@ -4,7 +4,9 @@ package _Bank_remaster.menu;
 import _Bank_remaster.exceptions.BankNotFoundException;
 import _Bank_remaster.models.Bank;
 import _Bank_remaster.repositories.BankRepository;
-
+/*
+ * The bank menu for CRUD-operations with banks.
+ */
 public class BankMenu extends CRUDMenu{
 
 	private final BankRepository bankRepo;

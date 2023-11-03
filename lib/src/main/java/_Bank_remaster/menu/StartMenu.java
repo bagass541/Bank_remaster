@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import _Bank_remaster.db.DatabaseConnection;
 
+/*
+ * The start menu that offers to choose what operations do you want to do.
+ */
 public class StartMenu extends Menu {
 
 	private final String MENU = """

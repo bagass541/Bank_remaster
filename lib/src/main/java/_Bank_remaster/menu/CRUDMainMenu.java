@@ -11,6 +11,9 @@ import _Bank_remaster.repositories.TransactionRepositoryImpl;
 import _Bank_remaster.repositories.UserRepository;
 import _Bank_remaster.repositories.UserRepositoryImpl;
 
+/*
+ * The CRUD main menu that wants you to choose model that will be used in CRUD-operations.
+ */
 public class CRUDMainMenu extends CRUDMenu{
 
 	private final BankRepository bankRepo;

@@ -23,14 +23,14 @@ public class AccountServiceImpl implements AccountService{
 	public void withdraw(Account account, BigDecimal sum) {
 		account.setBalance(account.getBalance().subtract(sum));
 		accountRepo.updateAccount(account);
-		chequeGenerator.generateCheck(transactionService.createTransaction(TransactionType.WITHDRAW, account, account, sum));
+		chequeGenerator.generateCheque(transactionService.createTransaction(TransactionType.WITHDRAW, account, account, sum));
 	}
 
 	@Override
 	public void deposit(Account account, BigDecimal sum) {
 		account.setBalance(account.getBalance().add(sum));
 		accountRepo.updateAccount(account);
-		chequeGenerator.generateCheck(transactionService.createTransaction(TransactionType.DEPOSIT, account, account, sum));
+		chequeGenerator.generateCheque(transactionService.createTransaction(TransactionType.DEPOSIT, account, account, sum));
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class AccountServiceImpl implements AccountService{
 		accountRepo.updateAccount(sendAccount);
 		accountRepo.updateAccount(recipAccount);
 		
-		chequeGenerator.generateCheck(transactionService.createTransaction(TransactionType.TRANSFER, sendAccount, recipAccount, sum));
+		chequeGenerator.generateCheque(transactionService.createTransaction(TransactionType.TRANSFER, sendAccount, recipAccount, sum));
 		
 		
 	}

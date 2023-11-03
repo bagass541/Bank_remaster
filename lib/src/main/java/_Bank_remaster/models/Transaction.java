@@ -1,10 +1,15 @@
 package _Bank_remaster.models;
 
 import java.math.BigDecimal;
+
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+
+/*
+ * Model of a transaction.
+ */
 
 @Data
 @Builder

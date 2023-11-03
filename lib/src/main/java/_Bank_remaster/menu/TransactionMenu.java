@@ -12,6 +12,9 @@ import _Bank_remaster.models.Transaction;
 import _Bank_remaster.models.TransactionType;
 import _Bank_remaster.repositories.TransactionRepository;
 
+/*
+ * The transaction menu for CRUD-operations with transactions.
+ */
 public class TransactionMenu extends CRUDMenu {
 	
 	private final TransactionRepository transactionRepo;
@@ -72,6 +75,11 @@ public class TransactionMenu extends CRUDMenu {
 		}
 	}
 	
+	/*
+	 * Requests user input and sets properties for an transaction.
+	 * 
+	 * @param transaction The transaction for which properties need to be set.
+	 */
 	private void askProperties(Transaction transaction) {
 		System.out.println("\nВведите дату транзакции: ");
 		LocalDate date = Date.valueOf(scanner.next()).toLocalDate();
