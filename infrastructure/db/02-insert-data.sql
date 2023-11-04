@@ -8,26 +8,26 @@ INSERT INTO banks(name) VALUES ('Belagroprombank');
 INSERT INTO banks(name) VALUES ('Belgazprombank');
 
 
-INSERT INTO users(surname, name, middle_name) VALUES ('Короткевич', 'Алексей', 'Геннадьевич');
-INSERT INTO users(surname, name, middle_name) VALUES ('Короткевич', 'Александр', 'Геннадьевич');
-INSERT INTO users(surname, name, middle_name) VALUES ('Короткевич', 'Геннадий', 'Анатольевич');
-INSERT INTO users(surname, name, middle_name) VALUES ('Кротенок', 'Елена', 'Алексеевна');
-INSERT INTO users(surname, name, middle_name) VALUES ('Смирнов', 'Иван', 'Александрович');
-INSERT INTO users(surname, name, middle_name) VALUES ('Иванов', 'Михаил', 'Сергеевич');
-INSERT INTO users(surname, name, middle_name) VALUES ('Петров', 'Анна', 'Игоревна');
-INSERT INTO users(surname, name, middle_name) VALUES ('Сидоров', 'Елена', 'Павловна');
-INSERT INTO users(surname, name, middle_name) VALUES ('Козлов', 'Артем', 'Дмитриевич');
-INSERT INTO users(surname, name, middle_name) VALUES ('Михайлов', 'Ольга', 'Андреевна');
-INSERT INTO users(surname, name, middle_name) VALUES ('Новиков', 'Денис', 'Игоревич');
-INSERT INTO users(surname, name, middle_name) VALUES ('Морозов', 'Лариса', 'Сергеевна');
-INSERT INTO users(surname, name, middle_name) VALUES ('Коваленко', 'Андрей', 'Петрович');
-INSERT INTO users(surname, name, middle_name) VALUES ('Лебедева', 'Марина', 'Владимировна');
-INSERT INTO users(surname, name, middle_name) VALUES ('Соколов', 'Алиса', 'Александровна');
-INSERT INTO users(surname, name, middle_name) VALUES ('Ильин', 'Виктор', 'Иванович');
-INSERT INTO users(surname, name, middle_name) VALUES ('Григорьев', 'Оксана', 'Алексеевна');
-INSERT INTO users(surname, name, middle_name) VALUES ('Борисов', 'Артур', 'Анатольевич');
-INSERT INTO users(surname, name, middle_name) VALUES ('Кузьмин', 'Евгения', 'Валерьевна');
-INSERT INTO users(surname, name, middle_name) VALUES ('Пармон', 'Максим', 'Александрович');
+INSERT INTO users(surname, name, patronymic) VALUES ('Короткевич', 'Алексей', 'Геннадьевич');
+INSERT INTO users(surname, name, patronymic) VALUES ('Короткевич', 'Александр', 'Геннадьевич');
+INSERT INTO users(surname, name, patronymic) VALUES ('Короткевич', 'Геннадий', 'Анатольевич');
+INSERT INTO users(surname, name, patronymic) VALUES ('Кротенок', 'Елена', 'Алексеевна');
+INSERT INTO users(surname, name, patronymic) VALUES ('Смирнов', 'Иван', 'Александрович');
+INSERT INTO users(surname, name, patronymic) VALUES ('Иванов', 'Михаил', 'Сергеевич');
+INSERT INTO users(surname, name, patronymic) VALUES ('Петров', 'Анна', 'Игоревна');
+INSERT INTO users(surname, name, patronymic) VALUES ('Сидоров', 'Елена', 'Павловна');
+INSERT INTO users(surname, name, patronymic) VALUES ('Козлов', 'Артем', 'Дмитриевич');
+INSERT INTO users(surname, name, patronymic) VALUES ('Михайлов', 'Ольга', 'Андреевна');
+INSERT INTO users(surname, name, patronymic) VALUES ('Новиков', 'Денис', 'Игоревич');
+INSERT INTO users(surname, name, patronymic) VALUES ('Морозов', 'Лариса', 'Сергеевна');
+INSERT INTO users(surname, name, patronymic) VALUES ('Коваленко', 'Андрей', 'Петрович');
+INSERT INTO users(surname, name, patronymic) VALUES ('Лебедева', 'Марина', 'Владимировна');
+INSERT INTO users(surname, name, patronymic) VALUES ('Соколов', 'Алиса', 'Александровна');
+INSERT INTO users(surname, name, patronymic) VALUES ('Ильин', 'Виктор', 'Иванович');
+INSERT INTO users(surname, name, patronymic) VALUES ('Григорьев', 'Оксана', 'Алексеевна');
+INSERT INTO users(surname, name, patronymic) VALUES ('Борисов', 'Артур', 'Анатольевич');
+INSERT INTO users(surname, name, patronymic) VALUES ('Кузьмин', 'Евгения', 'Валерьевна');
+INSERT INTO users(surname, name, patronymic) VALUES ('Пармон', 'Максим', 'Александрович');
 
 
 INSERT INTO accounts(account_number, balance, user_id, bank_id, opening_date) VALUES ('0000000001', 0, 1, 2, '2023-08-30');
