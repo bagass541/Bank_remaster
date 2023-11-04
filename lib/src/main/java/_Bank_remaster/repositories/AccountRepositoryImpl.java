@@ -184,7 +184,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 	}
 
 	@Override
-	public void createAccount(Account account) {
+	public void createAccount(Account account){
 		String sql = "INSERT INTO accounts(account_number, balance, user_id, bank_id, opening_date) VALUES (?, ?, ?, ?, ?)";
 		
 		try(PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -211,7 +211,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 	}
 
 	@Override
-	public void updateAccount(Account account) {
+	public void updateAccount(Account account){
 		String sql = "update accounts set account_number = ?, balance = ?, user_id = ?, bank_id = ?, "
 				+ "opening_date = ? where id = ?";
 		

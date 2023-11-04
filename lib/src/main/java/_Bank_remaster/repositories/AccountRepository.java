@@ -50,6 +50,7 @@ public interface AccountRepository {
 	 * Create a new account in the database.
 	 * 
 	 * @param account The account to be created.
+	 * @throws PSQLException If a request has troubles with the properties.
 	 */
 	void createAccount(Account account);
 	
@@ -57,6 +58,7 @@ public interface AccountRepository {
 	 * Update an existing account in the database.
 	 * 
 	 * @param account The account which exitsts in the database with updated properties.
+	 * @throws PSQLException If a request has troubles with the properties.
 	 */
 	void updateAccount(Account account);
 	

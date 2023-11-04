@@ -77,10 +77,12 @@ public class MainMenu extends Menu {
 					System.out.println("\nНа какую сумму вы хотите пополнить баланс? ");
 					accountService.deposit(account, scanner.nextBigDecimal());
 					
+					
 				}
 				case 3 -> {
 					System.out.println("\nКакую сумму вы хотите снять? ");
 					accountService.withdraw(account, scanner.nextBigDecimal());
+					
 					
 				}
 				case 4 -> {
@@ -95,19 +97,18 @@ public class MainMenu extends Menu {
 					
 					System.out.println("\nВведите сумму, которую хотите перевести: ");
 					accountService.transfer(account, recipAccount, scanner.nextBigDecimal());
+					
 				}
 				case 5 -> {
 					try {
 						statementGenerator.generate(account, TimePeriod.ALL_TIME);
+						System.out.println("Выписка успешно сформирована.");
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						System.out.println("Что-то пошло не так");
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						System.out.println("Что-то пошло не так");
 					} catch (DocumentException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						System.out.println("Что-то пошло не так");
 					}
 				}
 				case 6 -> {

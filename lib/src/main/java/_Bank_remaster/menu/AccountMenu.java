@@ -1,6 +1,7 @@
 package _Bank_remaster.menu;
 
 import java.sql.Date;
+import java.util.InputMismatchException;
 
 import _Bank_remaster.exceptions.AccNotFoundException;
 import _Bank_remaster.models.Account;
@@ -41,6 +42,7 @@ public class AccountMenu extends CRUDMenu {
 					Account account = new Account();
 					askProperties(account);	
 					accountRepo.createAccount(account);
+	
 				}
 				case 3 -> {
 					System.out.println("\nВведите id счета, который нужно изменить: ");
@@ -48,8 +50,8 @@ public class AccountMenu extends CRUDMenu {
 					try {
 						account = accountRepo.findById(scanner.nextLong());
 					} catch (AccNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						System.out.println("Счет не найден");
+						break;
 					}
 					System.out.println(account);
 					
@@ -59,7 +61,7 @@ public class AccountMenu extends CRUDMenu {
 						accountRepo.updateAccount(account);
 					} catch(RuntimeException ex) {
 						System.out.println("\nЧто-то пошло не так");
-					}
+					} 
 					
 				}
 				case 4 -> {
@@ -80,21 +82,30 @@ public class AccountMenu extends CRUDMenu {
 	 * @param account The account for which properties need to be set.
 	 */
 	private void askProperties(Account account) {
-		System.out.println("\nВведите нужный вам баланс: ");
-		account.setBalance(scanner.nextBigDecimal());
+		try {
+			System.out.println("\nВведите нужный вам баланс: ");
+			account.setBalance(scanner.nextBigDecimal());
+			
+			System.out.println("\nВведите id пользователя для счета: ");
+			User user = new User();
+			user.setId(scanner.nextLong());
+			account.setUser(user);
+			
+			System.out.println("\nВведите id банка счета: ");
+			Bank bank = new Bank();
+			bank.setId(scanner.nextLong());
+			account.setBank(bank);
+			
+			System.out.println("\nВведите дату открытия счета: ");
+			account.setOpeningDate(Date.valueOf(scanner.next()).toLocalDate());
+		} catch(InputMismatchException ex) {
+			System.out.println("Ошибка: неверный формат ввода.");
+			askProperties(account);
+		} catch(IllegalArgumentException ex) {
+			System.out.println("Ошибка: неверный формат ввода.");
+			askProperties(account);
+		}
 		
-		System.out.println("\nВведите id пользователя для счета: ");
-		User user = new User();
-		user.setId(scanner.nextLong());
-		account.setUser(user);
-		
-		System.out.println("\nВведите id банка счета: ");
-		Bank bank = new Bank();
-		bank.setId(scanner.nextLong());
-		account.setBank(bank);
-		
-		System.out.println("\nВведите дату открытия счета: ");
-		account.setOpeningDate(Date.valueOf(scanner.next()).toLocalDate());
 	}
 
 }

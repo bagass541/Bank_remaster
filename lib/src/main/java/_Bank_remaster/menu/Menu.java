@@ -1,6 +1,7 @@
 package _Bank_remaster.menu;
 
 import java.util.Scanner;
+
 /*
  * Abstract menu
  */
