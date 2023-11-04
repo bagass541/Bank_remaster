@@ -11,7 +11,7 @@ Lombok для упрощения работы с шаблонным кодом, 
   ```
 * Поднять БД с помощью docker-compose.
   ```bash
-  docker build
+  docker-compose build
   docker-compose up
   ```
 * Запустить Main класс
